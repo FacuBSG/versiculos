@@ -38,10 +38,13 @@
       box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
     }
     body.dark-mode .dark-mode-toggle {
-  background-color: #ffffff;
+  background-color: #ffffff; /* blanco */
     }
     body.dark-mode .dark-mode-toggle:hover {
-  background-color: #000000;
+  background-color: #eeeeee; /* gris MUY clarito al pasar el mouse */
+    }
+    .dark-mode-toggle:hover {
+  background-color: #222222; /* gris MUY oscuro al pasar el mouse */
     }
     h1 {
       font-family: 'Times New Roman', Times, serif;
@@ -52,19 +55,20 @@
       transition: color 0.3s ease;
     }
     .dark-mode-toggle {
-      position: absolute;
-      top: 1rem;
-      right: 1rem;
-      background-color: #f0f0f0;
-      border: none;
-      border-radius: 0.5rem;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 2.5rem;
-      height: 2.5rem;
-      padding: 0;
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background-color: #000000; /* negro */
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0;
+  transition: background-color 0.3s ease; /* para transición suave */
     }
     .dark-mode-toggle img {
       width: 1.5rem;
