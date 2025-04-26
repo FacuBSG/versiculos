@@ -1,1 +1,383 @@
-<h1>hola estoy probando</h1>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Versículo Bíblico</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 2rem;
+      transition: background-color 0.3s ease;
+    }
+    /* Modo oscuro */
+    body.dark-mode {
+      background-color: #333333;
+    }
+    body.dark-mode h1 {
+      color: #ffffff;
+    }
+    body.dark-mode .texto {
+      color: #ffffff;
+    }
+    body.dark-mode .cita {
+      color: #d1d1d1;
+    }
+    body.dark-mode .card {
+      background-color: #4a4a4a;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    }
+    body.dark-mode .dark-mode-toggle {
+      background-color: #ffffff;
+      color: #000000;
+    }
+    body.dark-mode .dark-mode-toggle:hover {
+      background-color: #e0e0e0;
+    }
+    h1 {
+      font-size: 2.5rem;
+      color: #000000;
+      text-align: center;
+      margin-bottom: 1.5rem;
+      transition: color 0.3s ease;
+    }
+    /* Botón de modo oscuro */
+    .dark-mode-toggle {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      padding: 0;
+      background-color: #000000;
+      border: none;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 2.5rem;
+      height: 2.5rem;
+    }
+    .dark-mode-toggle:hover {
+      background-color: #333333;
+    }
+    .dark-mode-toggle:focus {
+      outline: 2px solid #ffffff;
+      outline-offset: 2px;
+    }
+    .dark-mode-toggle img {
+      width: 1.5rem;
+      height: 1.5rem;
+      display: block;
+    }
+    .card {
+      background-color: #dedede;
+      padding: 2rem;
+      border-radius: 1rem;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      max-width: 600px;
+      text-align: center;
+      transition: background-color 0.3s ease;
+    }
+    .texto {
+      font-weight: bold;
+      font-style: italic;
+      font-size: 1.25rem;
+      color: #000000;
+      margin-bottom: 1rem;
+      transition: color 0.3s ease;
+    }
+    .cita {
+      color: #000000;
+      font-style: normal;
+      font-weight: 600;
+      font-size: 1.1rem;
+      transition: color 0.3s ease;
+    }
+    footer a {
+      color: #888;
+      text-decoration: none;
+    }
+    footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <button class="dark-mode-toggle" onclick="toggleDarkMode()" aria-label="Alternar modo oscuro">
+    <img src="images/moon.png" alt="Activar modo oscuro" class="icon" title="Activar modo oscuro">
+  </button>
+
+  <h1>La palabra de Dios.</h1>
+  <div id="reloj" style="margin-bottom: 1rem; font-size: 1rem; color: #7d7d7d;"></div>
+
+  <div class="card" id="versiculo">
+    <!-- Versículo aparecerá acá -->
+  </div>
+
+  <script>
+    const versiculos = [
+      { cita: "Hebreos 11:1", texto: "Es, pues, la fe la certeza de lo que se espera, la convicción de lo que no se ve." },
+      { cita: "Jeremías 29:11", texto: "Porque yo sé los planes que tengo para ustedes —afirma el Señor—, planes de bienestar y no de calamidad, a fin de darles un futuro y una esperanza." },
+      { cita: "Salmo 23:1", texto: "El Señor es mi pastor, nada me faltará." },
+      { cita: "Filipenses 4:13", texto: "Todo lo puedo en Cristo que me fortalece." },
+      { cita: "Romanos 8:28", texto: "Sabemos que Dios dispone todas las cosas para el bien de quienes lo aman, los que han sido llamados según su propósito." },
+      { cita: "Proverbios 3:5-6", texto: "Confía en el Señor con todo tu corazón y no te apoyes en tu propia prudencia. Reconócelo en todos tus caminos, y él allanará tus sendas." },
+      { cita: "Mateo 11:28", texto: "Vengan a mí todos ustedes que están cansados y agobiados, y yo les daré descanso." },
+      { cita: "Salmo 46:1", texto: "Dios es nuestro refugio y nuestra fuerza, nuestra ayuda segura en momentos de angustia." },
+      { cita: "2 Corintios 12:9", texto: "Te basta con mi gracia, pues mi poder se perfecciona en la debilidad." },
+      { cita: "Josué 1:9", texto: "Mira que te mando que te esfuerces y seas valiente; no temas ni desmayes, porque el Señor tu Dios estará contigo dondequiera que vayas." },
+      { cita: "Isaías 40:31", texto: "Pero los que confían en el Señor renovarán sus fuerzas; volarán como las águilas: correrán, y no se fatigarán; caminarán, y no se cansarán." },
+      { cita: "Isaías 41:10", texto: "No temas, porque yo estoy contigo; no desmayes, porque yo soy tu Dios que te esfuerzo; siempre te ayudaré, siempre te sustentaré con la diestra de mi justicia." },
+      { cita: "Juan 3:16", texto: "Porque de tal manera amó Dios al mundo, que ha dado a su Hijo unigénito, para que todo aquel que en él cree no se pierda, mas tenga vida eterna." },
+      { cita: "Salmo 91:1-2", texto: "El que habita al abrigo del Altísimo morará bajo la sombra del Omnipotente. Diré yo al Señor: Refugio mío y castillo mío, mi Dios, en quien confío." },
+      { cita: "Efesios 2:8-9", texto: "Porque por gracia ustedes han sido salvados mediante la fe; esto no procede de ustedes, sino que es el regalo de Dios, no por obras, para que nadie se jacte." },
+      { cita: "Mateo 6:33", texto: "Busquen primeramente el reino de Dios y su justicia, y todas estas cosas les serán añadidas." },
+      { cita: "Santiago 1:5", texto: "Si a alguno de ustedes le falta sabiduría, pídala a Dios, quien da a todos abundantemente y sin reproche, y le será dada." },
+      { cita: "1 Corintios 10:13", texto: "No les ha sobrevenido ninguna tentación que no sea común al género humano. Fiel es Dios, quien no los dejará ser tentados más de lo que pueden resistir, sino que juntamente con la tentación proveerá la salida." },
+      { cita: "Salmo 27:1", texto: "El Señor es mi luz y mi salvación, ¿a quién temeré? El Señor es la fortaleza de mi vida, ¿de quién he de atemorizarme?" },
+      { cita: "Gálatas 5:22-23", texto: "En cambio, el fruto del Espíritu es amor, alegría, paz, paciencia, benignidad, bondad, fidelidad, mansedumbre, dominio propio; contra tales cosas no hay ley." },
+      { cita: "Juan 14:6", texto: "Jesús le dijo: Yo soy el camino, la verdad y la vida; nadie viene al Padre sino por mí." },
+      { cita: "Salmo 37:4", texto: "Deléitate en el Señor, y él te concederá los deseos de tu corazón." },
+      { cita: "Romanos 12:2", texto: "No se amolden al mundo actual, sino sean transformados mediante la renovación de su mente. Así podrán comprobar cuál es la voluntad de Dios, buena, agradable y perfecta." },
+      { cita: "1 Pedro 5:7", texto: "Echen toda su ansiedad sobre él, porque él cuida de ustedes." },
+      { cita: "Mateo 5:16", texto: "Así alumbre la luz de ustedes delante de los hombres, para que vean sus buenas obras y glorifiquen a su Padre que está en los cielos." },
+      { cita: "Salmo 119:105", texto: "Lámpara es a mis pies tu palabra, y lumbrera a mi camino." },
+      { cita: "Colosenses 3:23", texto: "Y todo lo que hagan, háganlo de corazón, como para el Señor y no para los hombres." },
+      { cita: "Deuteronomio 31:6", texto: "Esfuércense y cobren ánimo; no teman ni se asusten de ellos, porque el Señor su Dios es el que va con ustedes; no los dejará ni los desamparará." },
+      { cita: "1 Juan 4:19", texto: "Nosotros amamos porque él nos amó primero." },
+      { cita: "Éxodo 14:14", texto: "El Señor peleará por ustedes, y ustedes guardarán silencio." },
+      { cita: "Salmo 34:8", texto: "Prueben y vean que el Señor es bueno; dichoso el que en él se refugia." },
+      { cita: "Filipenses 4:6-7", texto: "No se inquieten por nada; más bien, en toda ocasión, con oración y ruego, presenten sus peticiones a Dios y denle gracias. Y la paz de Dios, que sobrepasa todo entendimiento, guardará sus corazones y sus pensamientos en Cristo Jesús." },
+      { cita: "Apocalipsis 21:4", texto: "Enjugará Dios toda lágrima de los ojos de ellos; y ya no habrá muerte, ni habrá más llanto, ni clamor, ni dolor; porque las primeras cosas pasaron." },
+      { cita: "Miqueas 6:8", texto: "Él te ha mostrado, oh hombre, lo que es bueno. ¿Y qué pide el Señor de ti, sino que practiques la justicia, que ames la misericordia y que camines humildemente con tu Dios?" },
+      { cita: "Lucas 6:31", texto: "Traten a los demás como quieren que ellos los traten a ustedes." },
+      { cita: "Salmo 139:14", texto: "Te alabaré, porque formidables, maravillosas son tus obras; estoy maravillado, y mi alma lo sabe muy bien." },
+      { cita: "1 Tesalonicenses 5:16-18", texto: "Estén siempre alegres, oren sin cesar, den gracias en toda circunstancia; porque esta es la voluntad de Dios para ustedes en Cristo Jesús." },
+      { cita: "Habacuc 3:19", texto: "El Señor, mi soberano, es mi fuerza; da a mis pies la ligereza de una gacela y me hace caminar por las alturas." },
+      { cita: "Marcos 12:30-31", texto: "Amarás al Señor tu Dios con todo tu corazón, con toda tu alma, con toda tu mente y con todas tus fuerzas. El segundo es este: Amarás a tu prójimo como a ti mismo. No hay otro mandamiento mayor que estos." },
+      { cita: "2 Timoteo 1:7", texto: "Porque no nos ha dado Dios espíritu de cobardía, sino de poder, de amor y de dominio propio." },
+      { cita: "Salmo 121:1-2", texto: "Alzaré mis ojos a los montes; ¿de dónde vendrá mi socorro? Mi socorro viene del Señor, que hizo los cielos y la tierra." },
+      { cita: "Juan 16:33", texto: "Estas cosas les he hablado para que en mí tengan paz. En el mundo tendrán aflicción; pero confíen, yo he vencido al mundo." },
+      { cita: "Proverbios 16:3", texto: "Encomienda al Señor tus obras, y tus pensamientos serán afirmados." },
+      { cita: "Hechos 1:8", texto: "Pero recibirán poder cuando haya venido sobre ustedes el Espíritu Santo, y me serán testigos en Jerusalén, en toda Judea, en Samaria y hasta lo último de la tierra." },
+      { cita: "Salmo 19:1", texto: "Los cielos cuentan la gloria de Dios, y el firmamento anuncia la obra de sus manos." },
+      { cita: "Efesios 4:32", texto: "Sean amables unos con otros, misericordiosos, perdonándose unos a otros, como Dios los perdonó a ustedes en Cristo." },
+      { cita: "Isaías 55:8-9", texto: "Porque mis pensamientos no son los pensamientos de ustedes, ni sus caminos son mis caminos —declara el Señor—. Como son más altos los cielos que la tierra, así son mis caminos más altos que sus caminos y mis pensamientos más altos que sus pensamientos." },
+      { cita: "1 Corintios 13:4-7", texto: "El amor es paciente, es bondadoso; el amor no tiene envidia; el amor no es jactancioso, no se envanece; no hace nada indebido, no busca lo suyo, no se irrita, no guarda rencor; no se goza de la injusticia, mas se goza de la verdad. Todo lo sufre, todo lo cree, todo lo espera, todo lo soporta." },
+      { cita: "Salmo 33:4", texto: "Porque la palabra del Señor es recta, y toda su obra es hecha con fidelidad." },
+      { cita: "Mateo 7:7", texto: "Pidan, y se les dará; busquen, y encontrarán; llamen, y se les abrirá." },
+      { cita: "Romanos 15:13", texto: "Que el Dios de la esperanza los llene de todo gozo y paz en el creer, para que abunden en esperanza por el poder del Espíritu Santo." },
+      { cita: "Salmo 16:11", texto: "Me mostrarás la senda de la vida; en tu presencia hay plenitud de gozo, delicias a tu diestra para siempre." },
+      { cita: "2 Corintios 5:17", texto: "De modo que, si alguno está en Cristo, nueva criatura es; las cosas viejas pasaron; he aquí todas son hechas nuevas." },
+      { cita: "Proverbios 17:17", texto: "En todo tiempo ama el amigo, y es como hermano en tiempo de angustia." },
+      { cita: "Salmo 55:22", texto: "Echa sobre el Señor tu carga, y él te sustentará; no dejará para siempre caído al justo." },
+      { cita: "Juan 15:13", texto: "Nadie tiene mayor amor que este, que uno ponga su vida por sus amigos." },
+      { cita: "Eclesiastés 3:1", texto: "Todo tiene su tiempo, y todo lo que se quiere debajo del cielo tiene su hora." },
+      { cita: "Salmo 30:5", texto: "Porque un momento será su ira, pero su favor dura toda la vida. Por la noche durará el lloro, y a la mañana vendrá la alegría." },
+      { cita: "Hebreos 13:5", texto: "Sean vuestras costumbres sin avaricia, contentos con lo que tienen ahora; porque él dijo: No te desampararé, ni te dejaré." },
+      { cita: "1 Juan 1:9", texto: "Si confesamos nuestros pecados, él es fiel y justo para perdonar nuestros pecados y limpiarnos de toda maldad." },
+      { cita: "Salmo 86:15", texto: "Mas tú, Señor, eres Dios clemente y misericordioso, lento para la ira, y grande en misericordia y verdad." },
+      { cita: "Mateo 28:20", texto: "Y enseñándoles que guarden todas las cosas que les he mandado; y he aquí yo estoy con ustedes todos los días, hasta el fin del mundo." },
+      { cita: "Proverbios 4:23", texto: "Sobre toda cosa guardada, guarda tu corazón; porque de él mana la vida." },
+      { cita: "Salmo 147:3", texto: "Sana a los quebrantados de corazón, y venda sus heridas." },
+      { cita: "Lucas 12:34", texto: "Porque donde está su tesoro, allí estará también su corazón." },
+      { cita: "Romanos 5:8", texto: "Mas Dios muestra su amor para con nosotros, en que, siendo aún pecadores, Cristo murió por nosotros." },
+      { cita: "Salmo 73:26", texto: "Mi carne y mi corazón desfallecen; mas la roca de mi corazón y mi porción es Dios para siempre." },
+      { cita: "1 Pedro 2:9", texto: "Pero ustedes son linaje escogido, real sacerdocio, nación santa, pueblo adquirido por Dios, para que anuncien las virtudes de aquel que los llamó de las tinieblas a su luz admirable." },
+      { cita: "Jeremías 33:3", texto: "Clama a mí, y yo te responderé, y te enseñaré cosas grandes y ocultas que tú no conoces." },
+      { cita: "Salmo 100:5", texto: "Porque el Señor es bueno; para siempre es su misericordia, y su verdad por todas las generaciones." },
+      { cita: "Génesis 1:1", texto: "En el principio creó Dios los cielos y la tierra." },
+      { cita: "Génesis 2:24", texto: "Por tanto, dejará el hombre a su padre y a su madre, y se unirá a su mujer, y serán una sola carne." },
+      { cita: "Éxodo 20:12", texto: "Honra a tu padre y a tu madre, para que tus días se alarguen en la tierra que el Señor tu Dios te da." },
+      { cita: "Levítico 19:18", texto: "No te vengarás, ni guardarás rencor a los hijos de tu pueblo, sino amarás a tu prójimo como a ti mismo. Yo el Señor." },
+      { cita: "Números 6:24-26", texto: "El Señor te bendiga, y te guarde; el Señor haga resplandecer su rostro sobre ti, y tenga de ti misericordia; el Señor alce sobre ti su rostro, y te dé paz." },
+      { cita: "Deuteronomio 6:5", texto: "Y amarás al Señor tu Dios con todo tu corazón, y con toda tu alma, y con todas tus fuerzas." },
+      { cita: "Josué 24:15", texto: "Mas si no os parece bien servir al Señor, escogeos hoy a quién sirváis; si a los dioses que sirvieron vuestros padres, que estaban al otro lado del río, o a los dioses de los amorreos en cuya tierra habitáis; pero yo y mi casa serviremos al Señor." },
+      { cita: "1 Samuel 16:7", texto: "Porque el Señor no mira lo que mira el hombre; pues el hombre mira lo que está delante de sus ojos, pero el Señor mira el corazón." },
+      { cita: "2 Crónicas 7:14", texto: "Si se humillare mi pueblo, sobre el cual mi nombre es invocado, y oraren, y buscaren mi rostro, y se convirtieren de sus malos caminos; entonces yo oiré desde los cielos, y perdonaré sus pecados, y sanaré su tierra." },
+      { cita: "Job 1:21", texto: "Desnudo salí del vientre de mi madre, y desnudo volveré allá. El Señor dio, y el Señor quitó; sea el nombre del Señor bendito." },
+      { cita: "Salmos 1:1", texto: "Bienaventurado el varón que no anduvo en consejo de malos, ni estuvo en camino de pecadores, ni en silla de escarnecedores se ha sentado." },
+      { cita: "Salmos 8:3-4", texto: "Cuando veo tus cielos, obra de tus dedos, la luna y las estrellas que tú formaste, digo: ¿Qué es el hombre, para que tengas de él memoria, y el hijo del hombre, para que lo visites?" },
+      { cita: "Salmos 18:2", texto: "El Señor es mi roca, y mi fortaleza, y mi libertador; mi Dios, mi roca en quien confiaré; mi escudo, y el fuerte de mi salvación, mi alto refugio." },
+      { cita: "Salmos 32:8", texto: "Te haré entender, y te enseñaré el camino en que debes andar; sobre ti fijaré mis ojos." },
+      { cita: "Salmos 40:1", texto: "Pacientemente esperé al Señor, y se inclinó a mí, y oyó mi clamor." },
+      { cita: "Proverbios 10:12", texto: "El odio despierta rencillas; pero el amor cubrirá todas las faltas." },
+      { cita: "Proverbios 15:1", texto: "La blanda respuesta quita la ira; mas la palabra áspera hace subir el furor." },
+      { cita: "Eclesiastés 4:9-10", texto: "Mejores son dos que uno; porque tienen mejor paga de su trabajo. Porque si cayeren, el uno levantará a su compañero; pero ¡ay del que está solo!; cuando cayere, no habrá segundo que lo levante." },
+      { cita: "Isaías 6:8", texto: "Después oí la voz del Señor, que decía: ¿A quién enviaré, y quién irá por nosotros? Entonces respondí yo: Heme aquí, envíame a mí." },
+      { cita: "Isaías 26:3", texto: "Tú guardarás en completa paz a aquel cuyo pensamiento en ti persevera; porque en ti ha confiado." },
+      { cita: "Jeremías 17:7", texto: "Bendito el varón que confía en el Señor, y cuya confianza es el Señor." },
+      { cita: "Lamentaciones 3:22-23", texto: "Por la misericordia del Señor no hemos sido consumidos, porque nunca decayeron sus misericordias. Nuevas son cada mañana; grande es tu fidelidad." },
+      { cita: "Ezequiel 36:26", texto: "Os daré corazón nuevo, y pondré espíritu nuevo dentro de vosotros; y quitaré de vuestra carne el corazón de piedra, y os daré un corazón de carne." },
+      { cita: "Daniel 3:17", texto: "He aquí nuestro Dios a quien servimos puede librarnos del horno de fuego ardiendo; y de tu mano, oh rey, nos librará." },
+      { cita: "Oseas 6:6", texto: "Porque misericordia quiero, y no sacrificio, y conocimiento de Dios más que holocaustos." },
+      { cita: "Joel 2:13", texto: "Rasgad vuestro corazón, y no vuestros vestidos, y convertíos al Señor vuestro Dios; porque misericordioso es y clemente, tardo para la ira y grande en misericordia, y que se duele del castigo." },
+      { cita: "Amós 5:24", texto: "Pero corra el juicio como las aguas, y la justicia como impetuoso arroyo." },
+      { cita: "Jonás 2:2", texto: "Y dijo: Invoqué en mi angustia al Señor, y él me oyó; desde el seno del Seol clamé, y mi voz oíste." },
+      { cita: "Miqueas 7:18", texto: "Qué Dios como tú, que perdona la maldad, y olvida el pecado del remanente de su heredad? No retuvo para siempre su enojo, porque se deleita en misericordia." },
+      { cita: "Nahúm 1:7", texto: "El Señor es bueno, fortaleza en el día de la angustia; y conoce a los que en él confían." },
+      { cita: "Habacuc 2:3", texto: "Aunque la visión tardará aún por un tiempo, mas se apresura hacia el fin, y no mentirá; aunque tardare, espéralo, porque sin duda vendrá, no tardará." },
+      { cita: "Sofonías 3:17", texto: "El Señor tu Dios está en medio de ti, poderoso, él salvará; se gozará sobre ti con alegría, callará de amor, se regocijará sobre ti con cánticos." },
+      { cita: "Hageo 1:7", texto: "Así ha dicho el Señor de los ejércitos: Meditad bien sobre vuestros caminos." },
+      { cita: "Zacarías 9:9", texto: "Alégrate mucho, hija de Sion; da voces de júbilo, hija de Jerusalén; he aquí tu rey vendrá a ti, justo y salvador, humilde, y cabalgando sobre un asno, sobre un pollino hijo de asna." },
+      { cita: "Malaquías 3:10", texto: "Traed todos los diezmos al alfolí y haya alimento en mi casa; y probadme ahora en esto, dice el Señor de los ejércitos, si no os abriré las ventanas de los cielos, y derramaré sobre vosotros bendición hasta que sobreabunde." },
+      { cita: "Mateo 5:44", texto: "Amad a vuestros enemigos, bendecid a los que os maldicen, haced bien a los que os aborrecen, y orad por los que os ultrajan y os persiguen." },
+      { cita: "Mateo 18:20", texto: "Porque donde están dos o tres congregados en mi nombre, allí estoy yo en medio de ellos." },
+      { cita: "Marcos 10:45", texto: "Porque el Hijo del Hombre no vino para ser servido, sino para servir, y para dar su vida en rescate por muchos." },
+      { cita: "Lucas 1:37", texto: "Porque nada hay imposible para Dios." },
+      { cita: "Juan 1:1", texto: "En el principio era el Verbo, y el Verbo era con Dios, y el Verbo era Dios." },
+      { cita: "Juan 10:10", texto: "El ladrón no viene sino para hurtar y matar y destruir; yo he venido para que tengan vida, y para que la tengan en abundancia." },
+      { cita: "Hechos 4:12", texto: "Y en ningún otro hay salvación; porque no hay otro nombre bajo el cielo, dado a los hombres, en que podamos ser salvos." },
+      { cita: "Romanos 1:16", texto: "Porque no me avergüenzo del evangelio, porque es poder de Dios para salvación a todo aquel que cree; al judío primeramente, y también al griego." },
+      { cita: "1 Corintios 1:18", texto: "Porque la palabra de la cruz es locura a los que se pierden; pero a los que se salvan, esto es, a nosotros, es poder de Dios." },
+      { cita: "2 Corintios 4:8-9", texto: "Que estamos atribulados en todo, mas no angustiados; en apuros, mas no desesperados; perseguidos, mas no desamparados; derribados, pero no destruidos." },
+      { cita: "Gálatas 2:20", texto: "Con Cristo estoy juntamente crucificado, y ya no vivo yo, mas vive Cristo en mí; y lo que ahora vivo en la carne, lo vivo en la fe del Hijo de Dios, el cual me amó y se entregó a sí mismo por mí." },
+      { cita: "Efesios 3:20", texto: "Y a Aquel que es poderoso para hacer todas las cosas mucho más abundantemente de lo que pedimos o entendemos, según el poder que actúa en nosotros." },
+      { cita: "Filipenses 2:3", texto: "Nada hagáis por contienda o por vanagloria; antes bien con humildad, estimando cada uno a los demás como superiores a él mismo." },
+      { cita: "Colosenses 1:16", texto: "Porque en él fueron creadas todas las cosas, las que hay en los cielos y las que hay en la tierra, visibles e invisibles; sean tronos, sean dominios, sean principados, sean potestades; todo fue creado por medio de él y para él." },
+      { cita: "1 Tesalonicenses 4:16", texto: "Porque el Señor mismo con voz de mando, con voz de arcángel, y con trompeta de Dios, descenderá del cielo; y los muertos en Cristo resucitarán primero." },
+      { cita: "2 Tesalonicenses 3:3", texto: "Pero fiel es el Señor, que os afirmará y guardará del mal." },
+      { cita: "1 Timoteo 2:5", texto: "Porque hay un solo Dios, y un solo mediador entre Dios y los hombres, Jesucristo hombre." },
+      { cita: "2 Timoteo 2:15", texto: "Procura con diligencia presentarte a Dios aprobado, como obrero que no tiene de qué avergonzarse, que usa bien la palabra de verdad." },
+      { cita: "Tito 2:11", texto: "Porque la gracia de Dios se ha manifestado para salvación a todos los hombres." },
+      { cita: "Hebreos 4:12", texto: "Porque la palabra de Dios es viva y eficaz, y más cortante que toda espada de dos filos; y penetra hasta partir el alma y el espíritu, las coyunturas y los tuétanos, y discierne los pensamientos y las intenciones del corazón." },
+      { cita: "Santiago 4:7", texto: "Someteos, pues, a Dios; resistid al diablo, y huirá de vosotros." },
+      { cita: "1 Pedro 1:3", texto: "Bendito el Dios y Padre de nuestro Señor Jesucristo, que según su grande misericordia nos hizo renacer para una esperanza viva, por la resurrección de Jesucristo de los muertos." },
+      { cita: "2 Pedro 3:9", texto: "El Señor no retarda su promesa, según algunos la tienen por tardanza, sino que es paciente para con nosotros, no queriendo que ninguno perezca, sino que todos procedan al arrepentimiento." },
+      { cita: "1 Juan 3:1", texto: "Mirad cuál amor nos ha dado el Padre, para que seamos llamados hijos de Dios; por esto el mundo no nos conoce, porque no le conoció a él." },
+      { cita: "Judas 1:24", texto: "Y a aquel que es poderoso para guardaros sin caída, y presentaros sin mancha delante de su gloria con gran alegría." },
+      { cita: "Apocalipsis 1:8", texto: "Yo soy el Alfa y la Omega, principio y fin, dice el Señor, el que es y que era y que ha de venir, el Todopoderoso." },
+      { cita: "Apocalipsis 22:20", texto: "El que da testimonio de estas cosas dice: Ciertamente vengo en breve. Amén; sí, ven, Señor Jesús." }
+    ];
+
+    function generarVersiculo() {
+      const hoy = new Date().toDateString();
+      const aleatorio = versiculos[Math.floor(Math.random() * versiculos.length)];
+      const versiculoConFecha = { ...aleatorio, fecha: hoy };
+      try {
+        localStorage.setItem("ultimoVersiculo", JSON.stringify(versiculoConFecha));
+      } catch (e) {
+        console.error("Error al guardar en localStorage:", e);
+      }
+      mostrarVersiculo(versiculoConFecha);
+    }
+
+    function mostrarVersiculo(versiculo) {
+      const card = document.getElementById("versiculo");
+      card.style.opacity = 0;
+      setTimeout(() => {
+        card.innerHTML = `
+          <p class="texto">"${versiculo.texto}"</p>
+          <p class="cita">— ${versiculo.cita}</p>
+        `;
+        card.style.opacity = 1;
+      }, 500);
+    }
+
+    function inicializarVersiculo() {
+      const ahora = new Date();
+      const hoy = ahora.toDateString();
+      let guardado;
+      try {
+        guardado = JSON.parse(localStorage.getItem("ultimoVersiculo"));
+      } catch (e) {
+        console.error("Error al leer localStorage:", e);
+      }
+
+      if (!guardado || guardado.fecha !== hoy) {
+        generarVersiculo();
+      } else {
+        mostrarVersiculo(guardado);
+      }
+
+      programarCambio();
+      iniciarReloj();
+    }
+
+    function programarCambio() {
+      const ahora = new Date();
+      const proximoCambio = new Date(ahora);
+      proximoCambio.setHours(24, 0, 0, 0);
+      let tiempoRestante = proximoCambio - ahora;
+
+      setTimeout(() => {
+        generarVersiculo();
+        setInterval(generarVersiculo, 24 * 60 * 60 * 1000);
+      }, tiempoRestante);
+    }
+
+    function iniciarReloj() {
+      setInterval(() => {
+        const ahora = new Date();
+        const proximoCambio = new Date(ahora);
+        proximoCambio.setHours(24, 0, 0, 0);
+        let segundos = Math.floor((proximoCambio - ahora) / 1000);
+        const horas = Math.floor(segundos / 3600);
+        segundos %= 3600;
+        const minutos = Math.floor(segundos / 60);
+        segundos %= 60;
+        document.getElementById("reloj").innerText = 
+          `Próximo versículo en ${horas}h ${minutos}m ${segundos}s`;
+      }, 1000);
+    }
+
+    function toggleDarkMode() {
+      const body = document.body;
+      const isDarkMode = body.classList.toggle('dark-mode');
+      try {
+        localStorage.setItem('darkMode', isDarkMode ? 'enabled' : 'disabled');
+      } catch (e) {
+        console.error("Error al guardar preferencia de modo oscuro:", e);
+      }
+      const icon = document.querySelector('.dark-mode-toggle .icon');
+      if (icon) {
+        icon.src = isDarkMode ? 'images/sun.png' : 'images/moon.png';
+        icon.alt = isDarkMode ? 'Activar modo claro' : 'Activar modo oscuro';
+        icon.title = isDarkMode ? 'Activar modo claro' : 'Activar modo oscuro';
+      } else {
+        console.error("No se encontró el elemento .icon");
+      }
+    }
+
+    window.onload = () => {
+      let darkModePreference;
+      try {
+        darkModePreference = localStorage.getItem('darkMode');
+      } catch (e) {
+        console.error("Error al leer preferencia de modo oscuro:", e);
+      }
+      const icon = document.querySelector('.dark-mode-toggle .icon');
+      if (darkModePreference === 'enabled') {
+        document.body.classList.add('dark-mode');
+        if (icon) {
+          icon.src = 'images/sun.png';
+          icon.alt = 'Activar modo claro';
+          icon.title = 'Activar modo claro';
+        }
+      } else {
+        if (icon) {
+          icon.src = 'images/moon.png';
+          icon.alt = 'Activar modo oscuro';
+          icon.title = 'Activar modo oscuro';
+        }
+      }
+
+      inicializarVersiculo();
+    };
+  </script>
+
+  <footer style="margin-top: 1rem; font-size: 0.8rem; color: #888; text-align: center;">
+    Todos los versículos citados corresponden a la versión Reina-Valera 1960.<br>
+      </footer>
+
+</body>
+</html>
