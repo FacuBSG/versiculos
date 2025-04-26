@@ -501,31 +501,31 @@
       }
     }
 
-    window.onload = () => {
-      let darkModePreference;
-      try {
-        darkModePreference = localStorage.getItem('darkMode');
-      } catch (e) {
-        console.error("Error al leer preferencia de modo oscuro:", e);
-      }
-      const icon = document.querySelector('.dark-mode-toggle .icon');
-      if (darkModePreference === 'enabled') {
-        document.body.classList.add('dark-mode');
-        if (icon) {
-          icon.src = 'images/sun.png';
-          icon.alt = 'Activar modo claro';
-          icon.title = 'Activar modo claro';
-        }
-      } else {
-        if (icon) {
-          icon.src = 'images/moon.png';
-          icon.alt = 'Activar modo oscuro';
-          icon.title = 'Activar modo oscuro';
-        }
-      }
+document.addEventListener('DOMContentLoaded', () => {
+  let darkModePreference;
+  try {
+    darkModePreference = localStorage.getItem('darkMode');
+  } catch (e) {
+    console.error("Error al leer preferencia de modo oscuro:", e);
+  }
+  const icon = document.querySelector('.dark-mode-toggle .icon');
+  if (darkModePreference === 'enabled') {
+    document.body.classList.add('dark-mode');
+    if (icon) {
+      icon.src = 'images/sun.png';
+      icon.alt = 'Activar modo claro';
+      icon.title = 'Activar modo claro';
+    }
+  } else {
+    if (icon) {
+      icon.src = 'images/moon.png';
+      icon.alt = 'Activar modo oscuro';
+      icon.title = 'Activar modo oscuro';
+    }
+  }
 
-      inicializarVersiculo();
-    };
+  inicializarVersiculo();
+});
   </script>
 
   <footer style="margin-top: 1rem; font-size: 0.8rem; color: #888; text-align: center;">
